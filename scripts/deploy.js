@@ -18,7 +18,7 @@ async function main() {
   const [deployer] = await hre.ethers.getSigners();
   console.log("Deploying contracts with the account:", deployer.address);
   // Secondly we deploy our NFT contract
-  const NFTFactory = await hre.ethers.getContractFactory("NFT");
+  const NFTFactory = await hre.ethers.getContractFactory("NFTFactory");
   const nftFactory = await NFTFactory.deploy(); // deploy the contract
   // Wait the contract deployment
   await nftFactory.deployed();
