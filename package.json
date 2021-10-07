@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "deploy:nft": "yarn hardhat run scripts/deploy.js --network rinkeby",
+    "compile:nft": "yarn hardhat compile",
     "test:nft": "yarn hardhat test"
   },
   "dependencies": {
