@@ -30,7 +30,7 @@ module.exports = {
 		},
 		mumbai: {
 			url: "https://rpc-mumbai.maticvigil.com",
-			accounts: [[`0x${process.env.MUMBAI_PRIVATE_KEY}`]],
+			accounts: [`0x${process.env.MUMBAI_PRIVATE_KEY}`],
 		},
 	},
 	solidity: {
