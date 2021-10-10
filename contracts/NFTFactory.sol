@@ -13,7 +13,9 @@ contract NFTFactory is ERC721URIStorage {
     Counters.Counter private _tokenIds;
     address contractAddress;
 
-    constructor() ERC721("TestNFT", "NTF") {}
+    constructor(string memory name, string memory symbol)
+        ERC721(name, symbol)
+    {}
 
     function createToken(string memory tokenURI) public returns (uint256) {
         _tokenIds.increment();
