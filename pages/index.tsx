@@ -21,14 +21,18 @@ const Index = ({ collections, profile }: IndexProps) => {
 	});
 
 	const requestAccount = async () => {
-		const provider = new ethers.providers.Web3Provider(
-			(window as any).ethereum,
-			"any"
-		);
-		await provider.send("eth_requestAccounts", []);
-		const signer = provider.getSigner();
-		const address = await signer.getAddress();
-		setUserAddress(address);
+		if ((window as any).ethereum) {
+			const provider = new ethers.providers.Web3Provider(
+				(window as any).ethereum,
+				"any"
+			);
+			await provider.send("eth_requestAccounts", []);
+			const signer = provider.getSigner();
+			const address = await signer.getAddress();
+			setUserAddress(address);
+		} else {
+			alert("Please Install MetaMask");
+		}
 	};
 
 	useEffect(() => {
@@ -49,6 +53,21 @@ const Index = ({ collections, profile }: IndexProps) => {
 	// call the smart contract, send an update
 	const createNFT = async () => {
 		if (typeof (window as any).ethereum !== "undefined" && userAddress) {
+			const provider = new ethers.providers.Web3Provider(
+				(window as any).ethereum
+			);
+			const signer = provider.getSigner();
+
+			const factory = new ethers.ContractFactory(
+				NFTFactory.abi,
+				NFTFactory.bytecode,
+				signer
+			);
+
+			const deployedContract = await factory.deploy("TESTContract", "TST");
+
+			await deployedContract.deployed();
+
 			const data = JSON.stringify({
 				attributes: [],
 				description: "Rabat, Morocco",
@@ -59,13 +78,9 @@ const Index = ({ collections, profile }: IndexProps) => {
 			});
 			const added = await client.add(data);
 			const url = `https://ipfs.infura.io/ipfs/${added.path}`;
-			const provider = new ethers.providers.Web3Provider(
-				(window as any).ethereum
-			);
 
-			const signer = provider.getSigner();
 			const contract = new ethers.Contract(
-				"0x0fc754f4570cd00f79786ba186A3CCc498707030", // Smart contract address
+				deployedContract.address,
 				NFTFactory.abi,
 				signer
 			);
@@ -73,8 +88,6 @@ const Index = ({ collections, profile }: IndexProps) => {
 			await transaction.wait();
 		}
 	};
-
-	console.log({ collections });
 
 	return (
 		<div>
