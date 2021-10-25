@@ -10,11 +10,17 @@ import NFTFactory from "../artifacts/contracts/NFTFactory.sol/NFTFactory.json";
 
 type IndexProps = {
 	collections: Collection[];
-	profile: Profile;
 };
 
-const Index = ({ collections, profile }: IndexProps) => {
+type User = {
+	address: string;
+	shortAddress: string;
+	network: string;
+};
+
+const Index = ({ collections }: IndexProps) => {
 	const [userAddress, setUserAddress] = useState<string | null>(null);
+	const [user, setUse] = useState<User | null>(null);
 
 	const client = ipfsHttpClient({
 		url: "https://ipfs.infura.io:5001/api/v0",
@@ -34,12 +40,6 @@ const Index = ({ collections, profile }: IndexProps) => {
 			alert("Please Install MetaMask");
 		}
 	};
-
-	useEffect(() => {
-		if (!userAddress) {
-			requestAccount();
-		}
-	}, [userAddress]);
 
 	// const metadata = {
 	// 	attributes: [],
@@ -88,6 +88,12 @@ const Index = ({ collections, profile }: IndexProps) => {
 			await transaction.wait();
 		}
 	};
+
+	useEffect(() => {
+		if (!userAddress) {
+			requestAccount();
+		}
+	}, [userAddress]);
 
 	return (
 		<div>
@@ -176,7 +182,6 @@ export const getServerSideProps: GetServerSideProps = async (
 			return {
 				props: {
 					collections,
-					profile: me,
 				},
 			};
 		} else {
