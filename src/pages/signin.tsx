@@ -47,7 +47,10 @@ const Signin = () => {
 							</button>
 						</CopyToClipboard>{" "}
 						&{" "}
-						<CopyToClipboard text="xxx" onCopy={showToast}>
+						<CopyToClipboard
+							text="0xcF2B221BF02a56526357Aa48c62779372e1a4b3F"
+							onCopy={showToast}
+						>
 							<button type="button" className="font-bold">
 								JefferyHus
 							</button>

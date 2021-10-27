@@ -1,112 +1,43 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { GetServerSideProps } from "next";
-import Image from "next/image";
+import Link from "next/link";
 import cookie from "cookie";
-import { ethers } from "ethers";
+import { Toaster } from "react-hot-toast";
 import { Flex, Item } from "react-flex-ready";
-import { create as ipfsHttpClient } from "ipfs-http-client";
-import { Collection, Profile } from "types";
-import NFTFactory from "../artifacts/contracts/NFTFactory.sol/NFTFactory.json";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "utils/store";
+import { Collection } from "types";
+import { requestAccount } from "features/user/actions";
+import { createNFT } from "features/unsplash/actions";
+import Card from "ui/components/Card";
 
 type IndexProps = {
 	collections: Collection[];
 };
 
-type User = {
-	address: string;
-	shortAddress: string;
-	network: string;
-};
-
 const Index = ({ collections }: IndexProps) => {
-	const [userAddress, setUserAddress] = useState<string | null>(null);
-	const [user, setUse] = useState<User | null>(null);
-
-	const client = ipfsHttpClient({
-		url: "https://ipfs.infura.io:5001/api/v0",
-	});
-
-	const requestAccount = async () => {
-		if ((window as any).ethereum) {
-			const provider = new ethers.providers.Web3Provider(
-				(window as any).ethereum,
-				"any"
-			);
-			await provider.send("eth_requestAccounts", []);
-			const signer = provider.getSigner();
-			const address = await signer.getAddress();
-			setUserAddress(address);
-		} else {
-			alert("Please Install MetaMask");
-		}
-	};
-
-	// const metadata = {
-	// 	attributes: [],
-	// 	description: "Marrakech, Morocco",
-	// 	external_url: "https://example.com/?token_id=1",
-	// 	image:
-	// 		"https://images.unsplash.com/photo-1563976983419-ab0c5789460b?ixlib=rb-1.2.1",
-	// 	name: "Marrakech",
-	// };
-
-	// call the smart contract, send an update
-	const createNFT = async () => {
-		if (typeof (window as any).ethereum !== "undefined" && userAddress) {
-			const provider = new ethers.providers.Web3Provider(
-				(window as any).ethereum
-			);
-			const signer = provider.getSigner();
-
-			const factory = new ethers.ContractFactory(
-				NFTFactory.abi,
-				NFTFactory.bytecode,
-				signer
-			);
-
-			const deployedContract = await factory.deploy("TESTContract", "TST");
-
-			await deployedContract.deployed();
-
-			const data = JSON.stringify({
-				attributes: [],
-				description: "Rabat, Morocco",
-				external_url: "https://example.com/?token_id=1",
-				image:
-					"https://images.unsplash.com/photo-1494797032936-319bfccccbe0?ixlib=rb-1.2.1",
-				name: "Rabat",
-			});
-			const added = await client.add(data);
-			const url = `https://ipfs.infura.io/ipfs/${added.path}`;
-
-			const contract = new ethers.Contract(
-				deployedContract.address,
-				NFTFactory.abi,
-				signer
-			);
-			const transaction = await contract.createToken(url);
-			await transaction.wait();
-		}
-	};
+	const user = useSelector((state: RootState) => state.user);
+	const dispatch = useDispatch();
 
 	useEffect(() => {
-		if (!userAddress) {
-			requestAccount();
+		if (!user.data?.address) {
+			requestAccount(dispatch);
 		}
-	}, [userAddress]);
+	}, [user.data?.address, dispatch]);
 
 	return (
 		<div>
-			<div className="text-center py-4">
-				{userAddress ? (
-					<div>
+			<div className="py-4 container">
+				{user.data?.address ? (
+					<div className="flex items-center justify-end">
 						<h1>
-							Your address: <span className="font-bold">{userAddress}</span>
+							Your address:{" "}
+							<span className="font-bold">{user.data.shortAddress}</span>
 						</h1>
 						<button
 							type="button"
-							className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-							onClick={createNFT}
+							className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-5"
+							onClick={() => createNFT(user)}
 						>
 							Mint NFT
 						</button>
@@ -115,7 +46,7 @@ const Index = ({ collections }: IndexProps) => {
 					<button
 						className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
 						type="button"
-						onClick={requestAccount}
+						onClick={() => requestAccount(dispatch)}
 					>
 						Sign in with Metamask
 					</button>
@@ -133,24 +64,20 @@ const Index = ({ collections }: IndexProps) => {
 							stretch
 							key={id}
 						>
-							<div className="w-full h-full">
-								<div>
-									<Image
-										src={cover_photo.urls.regular}
+							<Link href={`/collection/${id}`}>
+								<a className="w-full h-full">
+									<Card
+										photo={cover_photo.urls.regular}
+										title={title}
 										alt={title}
-										width={cover_photo.width}
-										height={cover_photo.height}
-										layout="responsive"
 									/>
-								</div>
-								<div>
-									<h4>{title}</h4>
-								</div>
-							</div>
+								</a>
+							</Link>
 						</Item>
 					))}
 				</Flex>
 			</section>
+			<Toaster position="top-center" reverseOrder={false} />
 		</div>
 	);
 };
