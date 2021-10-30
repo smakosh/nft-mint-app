@@ -1,20 +1,21 @@
-// contracts/NFT.sol
 // SPDX-License-Identifier: MIT OR Apache-2.0
-pragma solidity ^0.8.4;
+// Jefferyhus Contracts v0.0.1-alpha (./NFT.sol)
+
+pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/utils/Counters.sol";
-import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
-import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+import "./ERC2309.sol";
+import "./extensions/ERC2309URIStorage.sol";
 
 import "hardhat/console.sol";
 
-contract NFTFactory is ERC721URIStorage {
+contract NFTFactory is ERC2309URIStorage {
     using Counters for Counters.Counter;
     Counters.Counter private _tokenIds;
     address contractAddress;
 
     constructor(string memory name, string memory symbol)
-        ERC721(name, symbol)
+        ERC2309(name, symbol)
     {}
 
     function createToken(string memory tokenURI) public returns (uint256) {
