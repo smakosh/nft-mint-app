@@ -1,6 +1,8 @@
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import toast from "react-hot-toast";
+import cookie from "cookie";
 import { UNSPLASH_ACCESS_KEY, UNSPLASH_REDIRECT_URI } from "config";
+import { GetServerSideProps } from "next";
 
 const Signin = () => {
 	const handleLogin = () => {
@@ -64,6 +66,32 @@ const Signin = () => {
 			</div>
 		</div>
 	);
+};
+
+export const getServerSideProps: GetServerSideProps = async (
+	ctx
+): Promise<any> => {
+	const cookies = cookie.parse(ctx.req.headers.cookie || "");
+
+	if (cookies.access_token) {
+		const accessToken = cookies.access_token;
+
+		if (accessToken) {
+			return {
+				redirect: {
+					destination: "/",
+				},
+			};
+		}
+
+		return {
+			props: {},
+		};
+	}
+
+	return {
+		props: {},
+	};
 };
 
 export default Signin;

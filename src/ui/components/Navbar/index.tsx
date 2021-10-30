@@ -3,7 +3,12 @@ import CopyToClipboard from "react-copy-to-clipboard";
 import { Menu, Transition } from "@headlessui/react";
 import { Fragment } from "react";
 import { ethers } from "ethers";
-import { ChevronDownIcon, ClipboardCopyIcon } from "@heroicons/react/solid";
+import {
+	ChevronDownIcon,
+	ClipboardCopyIcon,
+	CurrencyDollarIcon,
+	GlobeAltIcon,
+} from "@heroicons/react/solid";
 import { UserData } from "features/user/redux/userSlice";
 
 type NavbarProps = Pick<
@@ -24,7 +29,7 @@ const Navbar = ({
 		{address ? (
 			<Menu as="div" className="relative inline-block text-right">
 				<div>
-					<Menu.Button className="inline-flex justify-center w-full px-4 py-2 text-sm font-medium text-white bg-black rounded-md bg-opacity-20 hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
+					<Menu.Button className="inline-flex justify-center w-full px-4 py-2 text-sm font-medium text-white bg-purple-800 rounded-md bg-opacity-90 hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
 						{shortAddress}
 						<ChevronDownIcon
 							className="w-5 h-5 ml-2 -mr-1 text-purple-200 hover:text-purple-100"
@@ -81,12 +86,12 @@ const Navbar = ({
 											} group flex rounded-md items-center w-full px-2 py-2 text-sm`}
 										>
 											{active ? (
-												<ClipboardCopyIcon
+												<CurrencyDollarIcon
 													className="w-5 h-5 mr-2"
 													aria-hidden="true"
 												/>
 											) : (
-												<ClipboardCopyIcon
+												<CurrencyDollarIcon
 													className="w-5 h-5 mr-2"
 													aria-hidden="true"
 												/>
@@ -106,12 +111,12 @@ const Navbar = ({
 										} group flex rounded-md items-center w-full px-2 py-2 text-sm`}
 									>
 										{active ? (
-											<ClipboardCopyIcon
+											<GlobeAltIcon
 												className="w-5 h-5 mr-2"
 												aria-hidden="true"
 											/>
 										) : (
-											<ClipboardCopyIcon
+											<GlobeAltIcon
 												className="w-5 h-5 mr-2"
 												aria-hidden="true"
 											/>

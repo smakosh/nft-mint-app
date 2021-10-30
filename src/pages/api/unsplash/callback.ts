@@ -25,15 +25,13 @@ export default async function handler(
 			);
 			const data: any = await response.json();
 
-			console.log(data);
-
 			res.setHeader(
 				"Set-Cookie",
 				serialize("access_token", data.access_token, {
 					path: "/",
 					httpOnly: true,
 					sameSite: "lax",
-					secure: false, // true,
+					secure: process.env.NODE_ENV === "production",
 					maxAge: 60 * 60 * 24 * 7, // 1 week
 				})
 			);

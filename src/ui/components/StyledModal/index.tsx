@@ -26,7 +26,10 @@ const StyledModal: FC<StyledModalProps> = ({ children, isOpen, setModal }) => {
 		<Modal
 			isOpen={isOpen}
 			onAfterOpen={afterOpenModal}
-			onRequestClose={() => setModal(false)}
+			onRequestClose={() => {
+				setModal(false);
+				document.body.style.overflow = "visible";
+			}}
 			style={customStyles}
 			contentLabel="Example Modal"
 		>

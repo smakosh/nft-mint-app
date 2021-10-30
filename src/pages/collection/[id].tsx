@@ -46,7 +46,7 @@ const CollectionPage = ({ photos, collection }: CollectionProps) => {
 				</Link>
 			</div>
 			<div className="py-4">
-				<h1 className="text-4xl text-center">{collection.title}</h1>
+				<h1 className="text-4xl text-left">{collection.title}</h1>
 			</div>
 			<StyledModal isOpen={modal.isOpen} setModal={handleModal}>
 				<div>
