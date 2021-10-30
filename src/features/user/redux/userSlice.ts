@@ -1,11 +1,12 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { ethers } from "ethers";
+import { ethers, BigNumberish } from "ethers";
 
-type UserData = {
-	address: string;
-	network: string;
+export type UserData = {
+	address: string | undefined;
+	network: string | undefined;
 	shortAddress: string | null | undefined;
 	signature: ethers.providers.JsonRpcSigner | null;
+	balance: BigNumberish | undefined;
 };
 
 export interface UserState {

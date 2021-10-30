@@ -11,16 +11,22 @@ export const requestAccount = async (dispatch: Dispatch<any>) => {
 			(window as any).ethereum,
 			"any"
 		);
+
 		await provider.send("eth_requestAccounts", []);
+
 		const { chainId } = await provider.getNetwork();
+
 		const signer = provider.getSigner();
 		const address = await signer.getAddress();
+		const balance = await provider.getBalance(address);
+
 		dispatch(
 			save({
 				address,
 				shortAddress: getShortAddress(address),
 				network: getNetwork(chainId),
 				signature: signer,
+				balance,
 			})
 		);
 	} else {

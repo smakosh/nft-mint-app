@@ -2,14 +2,12 @@ import { useEffect } from "react";
 import { GetServerSideProps } from "next";
 import Link from "next/link";
 import cookie from "cookie";
-import { Toaster } from "react-hot-toast";
-import { Flex, Item } from "react-flex-ready";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "utils/store";
 import { Collection } from "types";
 import { requestAccount } from "features/user/actions";
-import { createNFT } from "features/unsplash/actions";
 import Card from "ui/components/Card";
+import Navbar from "ui/components/Navbar";
 
 type IndexProps = {
 	collections: Collection[];
@@ -26,44 +24,18 @@ const Index = ({ collections }: IndexProps) => {
 	}, [user.data?.address, dispatch]);
 
 	return (
-		<div>
-			<div className="py-4 container">
-				{user.data?.address ? (
-					<div className="flex items-center justify-end">
-						<h1>
-							Your address:{" "}
-							<span className="font-bold">{user.data.shortAddress}</span>
-						</h1>
-						<button
-							type="button"
-							className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-5"
-							onClick={() => createNFT(user)}
-						>
-							Mint NFT
-						</button>
-					</div>
-				) : (
-					<button
-						className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-						type="button"
-						onClick={() => requestAccount(dispatch)}
-					>
-						Sign in with Metamask
-					</button>
-				)}
-			</div>
+		<div className="container mx-auto">
+			<Navbar
+				address={user.data?.address}
+				balance={user.data?.balance}
+				shortAddress={user.data?.shortAddress}
+				network={user.data?.network}
+				signIn={() => requestAccount(dispatch)}
+			/>
 			<section className="pt-8 px-4">
-				<Flex col={3} colTablet={6} colMobile={12} gap={2} align="flex-start">
+				<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-10">
 					{collections.map(({ id, title, cover_photo }) => (
-						<Item
-							col={3}
-							colTablet={6}
-							colMobile={12}
-							gap={2}
-							marginBottom={20}
-							stretch
-							key={id}
-						>
+						<div key={id}>
 							<Link href={`/collection/${id}`}>
 								<a className="w-full h-full">
 									<Card
@@ -73,11 +45,10 @@ const Index = ({ collections }: IndexProps) => {
 									/>
 								</a>
 							</Link>
-						</Item>
+						</div>
 					))}
-				</Flex>
+				</div>
 			</section>
-			<Toaster position="top-center" reverseOrder={false} />
 		</div>
 	);
 };

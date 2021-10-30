@@ -1,6 +1,6 @@
 import { CopyToClipboard } from "react-copy-to-clipboard";
+import toast from "react-hot-toast";
 import { UNSPLASH_ACCESS_KEY, UNSPLASH_REDIRECT_URI } from "config";
-import toast, { Toaster } from "react-hot-toast";
 
 const Signin = () => {
 	const handleLogin = () => {
@@ -62,7 +62,6 @@ const Signin = () => {
 					</p>
 				</div>
 			</div>
-			<Toaster position="top-center" reverseOrder={false} />
 		</div>
 	);
 };
