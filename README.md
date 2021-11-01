@@ -1,6 +1,6 @@
 # Mintify
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-2-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 A Free and Open source NFT minting platform
@@ -52,6 +52,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <table>
   <tr>
     <td align="center"><a href="https://pentium.live"><img src="https://avatars.githubusercontent.com/u/3521144?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Jeffery ThaGintoki</b></sub></a><br /><a href="#infra-JefferyHus" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a> <a href="https://github.com/smakosh/nft-mint-app/commits?author=JefferyHus" title="Tests">⚠️</a> <a href="https://github.com/smakosh/nft-mint-app/commits?author=JefferyHus" title="Code">💻</a></td>
+    <td align="center"><a href="https://smakosh.com"><img src="https://avatars.githubusercontent.com/u/20082141?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Ismail Ghallou </b></sub></a><br /><a href="#design-smakosh" title="Design">🎨</a> <a href="#infra-smakosh" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a> <a href="https://github.com/smakosh/nft-mint-app/commits?author=smakosh" title="Tests">⚠️</a> <a href="https://github.com/smakosh/nft-mint-app/commits?author=smakosh" title="Code">💻</a> <a href="https://github.com/smakosh/nft-mint-app/commits?author=smakosh" title="Documentation">📖</a></td>
   </tr>
 </table>
 
