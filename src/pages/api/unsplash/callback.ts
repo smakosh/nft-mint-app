@@ -37,15 +37,16 @@ export default async function handler(
 			);
 
 			res.redirect(
+				307,
 				process.env.NODE_ENV === "development"
 					? "http://localhost:3000"
 					: "https://mintify.smakosh.com"
 			);
-
-			res.end();
 		} else {
 			res.status(401).json({ error: "Unauthorized" });
 		}
-	} catch (error) {}
-	res.status(200).json({ name: "John Doe" });
+	} catch (error) {
+		console.log(error);
+		res.status(500).json({ error: "Something went wrong" });
+	}
 }
