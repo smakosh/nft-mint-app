@@ -1,20 +1,23 @@
-# Basic Sample Hardhat Project
+# Mintify
 
-This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, a sample script that deploys that contract, and an example of a task implementation, which simply lists the available accounts.
+A Free and Open source NFT minting platform
 
-Try running some of the following tasks:
+## Features
 
-```shell
-npx hardhat accounts
-npx hardhat compile
-npx hardhat clean
-npx hardhat test
-npx hardhat node
-node scripts/sample-script.js
-npx hardhat help
-```
+- Deploy your own ERC 721 smart contract, customize the name and symbol easily
+- Fetch Your Unsplash collections, mint each shot separately
+- Use deployed ERC 721 smart contract's address
 
-## Mumbai
+### Coming soon features
+
+- Switch from ERC 721 to ERC 1115
+- Support mass minting
+- Support Dribbble
+- Support Instagram
+
+### Setup
+
+#### Mumbai
 
 - Add Mumbai network to your metamask wallet
 
@@ -24,5 +27,16 @@ npx hardhat help
 > Currency Symbol: Matic
 
 - Add some MATIC: <https://faucet.matic.network/>
-- Deploy: `yarn deploy:mumbai`
-- Take the contract address and hard code it
+- Compile by running: `yarn run compile`
+
+#### Mainnet
+
+Just use the deployed app
+
+### Improvements
+
+- Handle loading states
+- Styling improvements
+- Take the user to the OpenSea link once deployed
+
+### Contributors

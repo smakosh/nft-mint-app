@@ -2,22 +2,26 @@ import { FC } from "react";
 import Modal from "react-modal";
 
 const customStyles = {
+	overlay: {
+		backgroundColor: "rgba(0, 0, 0, 0.8)",
+	},
 	content: {
 		top: "50%",
 		left: "50%",
 		right: "auto",
 		bottom: "auto",
-		marginRight: "-50%",
 		transform: "translate(-50%, -50%)",
+		background: "none",
+		border: "none",
 	},
 };
 
-type StyledModalProps = {
+type SyledModalProps = {
 	isOpen: boolean;
-	setModal: (isOpen: boolean) => void;
+	closeModal: () => void;
 };
 
-const StyledModal: FC<StyledModalProps> = ({ children, isOpen, setModal }) => {
+const StyledModal: FC<SyledModalProps> = ({ isOpen, closeModal, children }) => {
 	const afterOpenModal = () => {
 		document.body.style.overflow = "hidden";
 	};
@@ -26,12 +30,13 @@ const StyledModal: FC<StyledModalProps> = ({ children, isOpen, setModal }) => {
 		<Modal
 			isOpen={isOpen}
 			onAfterOpen={afterOpenModal}
-			onRequestClose={() => {
-				setModal(false);
+			onRequestClose={closeModal}
+			onAfterClose={() => {
 				document.body.style.overflow = "visible";
 			}}
 			style={customStyles}
 			contentLabel="Example Modal"
+			ariaHideApp={false}
 		>
 			{children}
 		</Modal>

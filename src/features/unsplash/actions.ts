@@ -1,9 +1,24 @@
+import toast from "react-hot-toast";
+import { Dispatch } from "redux";
 import { ethers } from "ethers";
 import { create as ipfsHttpClient } from "ipfs-http-client";
 import { UserState } from "features/user/redux/userSlice";
+import {
+	ContractState,
+	saveDeployedContract,
+} from "features/unsplash/redux/contractSlice";
 import NFTFactory from "../../../artifacts/contracts/NFTFactory.sol/NFTFactory.json";
 
-export const createNFT = async (user: UserState) => {
+export type ContractValues = {
+	name: string;
+	symbol: string;
+};
+
+export const deployContract = async (
+	user: UserState,
+	values: ContractValues,
+	dispatch: Dispatch<any>
+) => {
 	if (typeof (window as any).ethereum !== "undefined" && user.data?.address) {
 		let signer;
 
@@ -23,12 +38,41 @@ export const createNFT = async (user: UserState) => {
 		);
 
 		// Deploy the smart contract (ERC 721)
-		// @TODO: Shouldn't we keep this stored somewhere in case the user
-		// Wants to mint more NFTs using the same contract?
-		// @TODO: Pass the name and symbol dynamic
-		const deployedContract = await factory.deploy("TESTContract", "TST");
+		const deployedContract = await factory.deploy(values.name, values.symbol);
 
 		await deployedContract.deployed();
+
+		dispatch(saveDeployedContract(deployedContract));
+	}
+};
+
+export type MetadataNFT = {
+	description: string;
+	external_url: string;
+	image: string;
+	name: string;
+};
+
+export const createNFT = async (
+	user: UserState,
+	savedContract: ContractState,
+	values: MetadataNFT
+) => {
+	if (!savedContract.address && !savedContract.contract) {
+		toast.error("No contract is attached");
+		return null;
+	}
+
+	if (typeof (window as any).ethereum !== "undefined" && user.data?.address) {
+		let signer;
+
+		// Get the user signature if it's not saved on memory
+		if (!user.data.signature) {
+			const provider = new ethers.providers.Web3Provider(
+				(window as any).ethereum
+			);
+			signer = provider.getSigner();
+		}
 
 		// Prepare IPFS client instance
 		const client = ipfsHttpClient({
@@ -38,23 +82,29 @@ export const createNFT = async (user: UserState) => {
 		// @TOOD: Pass the metadata dynamically
 		const data = JSON.stringify({
 			attributes: [],
-			description: "Rabat, Morocco",
-			external_url: "https://example.com/?token_id=1",
-			image:
-				"https://images.unsplash.com/photo-1494797032936-319bfccccbe0?ixlib=rb-1.2.1",
-			name: "Rabat",
+			...values,
 		});
 
 		// Upload to IPFS (Look up for alternatives as data is not stored forever)
 		const added = await client.add(data);
 		const url = `https://ipfs.infura.io/ipfs/${added.path}`;
 
+		let contract: ethers.Contract;
+
 		// Mint the NFT using the deployed smart contract
-		const contract = new ethers.Contract(
-			deployedContract.address,
-			NFTFactory.abi,
-			user.data.signature || signer
-		);
+		if (savedContract.address) {
+			contract = new ethers.Contract(
+				savedContract.address,
+				NFTFactory.abi,
+				user.data.signature || signer
+			);
+		} else {
+			contract = new ethers.Contract(
+				savedContract.contract.address,
+				NFTFactory.abi,
+				user.data.signature || signer
+			);
+		}
 
 		// Token gets created
 		const transaction = await contract.createToken(url);

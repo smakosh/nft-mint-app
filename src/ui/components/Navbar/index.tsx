@@ -130,24 +130,6 @@ const Navbar = ({
 				</Transition>
 			</Menu>
 		) : (
-			// <div className="flex items-center justify-end flex-col">
-			// 	<h1 className="flex">
-			// 		Address:
-			// 		<span className="font-bold ml-1">{shortAddress}</span>
-			// 	</h1>
-			// 	{balance && (
-			// 		<h4 className="flex mx-2">
-			// 			Balance:
-			// 			<span className="font-bold ml-1">
-			// 				{ethers.utils.formatEther(balance)}
-			// 			</span>
-			// 		</h4>
-			// 	)}
-			// 	<h4 className="flex">
-			// 		Network:
-			// 		<span className="font-bold ml-1">{network}</span>
-			// 	</h4>
-			// </div>
 			<button
 				className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
 				type="button"

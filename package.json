@@ -7,9 +7,8 @@
 		"build": "next build",
 		"start": "next start",
 		"lint": "next lint",
-		"deploy:nft": "yarn hardhat run scripts/deploy.js --network rinkeby",
 		"deploy:mumbai": "yarn hardhat run scripts/deploy.js --network mumbai",
-		"compile:nft": "yarn hardhat compile",
+		"compile": "yarn hardhat compile",
 		"test:nft": "yarn hardhat test"
 	},
 	"dependencies": {
@@ -25,6 +24,7 @@
 		"dotenv": "^10.0.0",
 		"ethereum-waffle": "^3.4.0",
 		"ethers": "^5.4.7",
+		"formik": "^2.2.9",
 		"hardhat": "^2.6.5",
 		"ipfs-http-client": "50.1.2",
 		"next": "^12.0.1",
@@ -36,7 +36,8 @@
 		"react-modal": "^3.14.3",
 		"react-redux": "^7.2.6",
 		"styled-components": "^5.3.1",
-		"web3": "^1.6.0"
+		"web3": "^1.6.0",
+		"yup": "^0.32.11"
 	},
 	"devDependencies": {
 		"@types/cookie": "^0.4.1",
@@ -44,6 +45,7 @@
 		"@types/react-copy-to-clipboard": "^5.0.2",
 		"@types/react-modal": "^3.13.1",
 		"@types/styled-components": "^5.1.15",
+		"@types/yup": "^0.29.13",
 		"autoprefixer": "^10.3.6",
 		"babel-plugin-styled-components": "^1.13.2",
 		"eslint": "7.32.0",
