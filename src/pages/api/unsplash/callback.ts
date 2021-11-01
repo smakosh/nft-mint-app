@@ -36,9 +36,12 @@ export default async function handler(
 				})
 			);
 
-			res.writeHead(302, {
-				Location: process.env.NODE_ENV === "development" ? "http://localhost:3000" : "https://mintify.smakosh.com",
-			});
+			res.redirect(
+				process.env.NODE_ENV === "development"
+					? "http://localhost:3000"
+					: "https://mintify.smakosh.com"
+			);
+
 			res.end();
 		} else {
 			res.status(401).json({ error: "Unauthorized" });
