@@ -37,7 +37,7 @@ export default async function handler(
 			);
 
 			res.writeHead(302, {
-				Location: "http://localhost:3000",
+				Location: process.env.NODE_ENV === "development" ? "http://localhost:3000" : "https://mintify.smakosh.com",
 			});
 			res.end();
 		} else {
