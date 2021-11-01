@@ -42,8 +42,6 @@ Just use the deployed app
 - Styling improvements
 - Take the user to the OpenSea link once deployed
 
-### Contributors
-
 ## Contributors ✨
 
 Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
