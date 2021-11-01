@@ -3,11 +3,12 @@ import { GetServerSideProps } from "next";
 import Link from "next/link";
 import cookie from "cookie";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "utils/store";
 import { Collection } from "types";
-import { requestAccount } from "features/user/actions";
+import { RootState } from "utils/store";
+import SEO from "utils/SEO";
 import Card from "ui/components/Card";
 import Navbar from "ui/components/Navbar";
+import { requestAccount } from "features/user/actions";
 
 type IndexProps = {
 	collections: Collection[];
@@ -25,6 +26,7 @@ const Index = ({ collections }: IndexProps) => {
 
 	return (
 		<div className="container mx-auto">
+			<SEO url="/" />
 			<Navbar
 				address={user.data?.address}
 				balance={user.data?.balance}

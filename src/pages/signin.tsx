@@ -1,8 +1,9 @@
+import { GetServerSideProps } from "next";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import toast from "react-hot-toast";
 import cookie from "cookie";
+import SEO from "utils/SEO";
 import { UNSPLASH_ACCESS_KEY, UNSPLASH_REDIRECT_URI } from "config";
-import { GetServerSideProps } from "next";
 
 const Signin = () => {
 	const handleLogin = () => {
@@ -15,6 +16,7 @@ const Signin = () => {
 
 	return (
 		<div className="flex justify-center h-screen">
+			<SEO title="Sign In" url="/signin" />
 			<div className="self-center w-auto mx-auto text-center flex justify-between flex-col h-96">
 				<div className="mb-40">
 					<div className="mb-20">

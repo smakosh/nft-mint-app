@@ -2,6 +2,7 @@ import { GetServerSideProps } from "next";
 import cookie from "cookie";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "utils/store";
+import SEO from "utils/SEO";
 import Navbar from "ui/components/Navbar";
 import { requestAccount } from "features/user/actions";
 import Collection, {
@@ -15,6 +16,7 @@ const CollectionPage = ({ photos, collection }: CollectionProps) => {
 
 	return (
 		<div className="container mx-auto text-right">
+			<SEO title={collection.title} url={`/collection/${collection.id}`} />
 			<Navbar
 				address={user.data?.address}
 				balance={user.data?.balance}
