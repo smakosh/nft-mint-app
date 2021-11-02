@@ -1,19 +1,23 @@
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Field, Form, Formik } from "formik";
 import * as Yup from "yup";
+import { RootState } from "utils/store";
 import { saveContractAddress } from "features/unsplash/redux/contractSlice";
 
 const ContractAddressInput = () => {
+	const contract = useSelector((state: RootState) => state.contract);
 	const dispatch = useDispatch();
 
 	return (
 		<Formik
 			initialValues={{
-				address: "",
+				address: contract.contract?.address
+					? contract.contract.address
+					: contract.address || "",
 			}}
-			validationSchema={{
+			validationSchema={Yup.object().shape({
 				address: Yup.string().required("Required"),
-			}}
+			})}
 			onSubmit={(values) => {
 				try {
 					dispatch(saveContractAddress(values.address));
@@ -39,7 +43,7 @@ const ContractAddressInput = () => {
 						value={values.address}
 						onChange={(e: Event) => {
 							handleChange(e);
-							setTimeout(submitForm, 0);
+							setTimeout(() => submitForm(), 100);
 						}}
 					/>
 				</Form>
