@@ -110,6 +110,6 @@ export const createNFT = async (
 		const transaction = await contract.createToken(url);
 		await transaction.wait();
 
-		// @TODO: Handle when the transaction is done
+		toast.success("NFT created successfully");
 	}
 };

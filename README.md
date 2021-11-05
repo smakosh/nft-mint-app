@@ -1,6 +1,9 @@
 # Mintify
+
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+
 [![All Contributors](https://img.shields.io/badge/all_contributors-2-orange.svg?style=flat-square)](#contributors-)
+
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 A Free and Open source NFT minting platform
@@ -18,23 +21,19 @@ A Free and Open source NFT minting platform
 - Support Dribbble
 - Support Instagram
 
+> See: <https://github.com/smakosh/nft-mint-app/issues>
+
 ### Setup
 
-#### Mumbai
+#### Polygon
 
-- Add Mumbai network to your metamask wallet
-
-> Network Name: Mumbai TestNet
-> New RPC URL: <https://rpc-mumbai.matic.today>
-> Chain ID: 80001
-> Currency Symbol: Matic
-
-- Add some MATIC: <https://faucet.matic.network/>
-- Compile by running: `yarn run compile`
+See: <https://github.com/smakosh/nft-mint-app/tree/blockchain/polygon>
 
 #### Mainnet
 
 Just use the deployed app
+
+> Branch: <https://github.com/smakosh/nft-mint-app>
 
 ### Improvements
 

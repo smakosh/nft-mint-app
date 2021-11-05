@@ -1,4 +1,3 @@
-import toast from "react-hot-toast";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import { useSelector } from "react-redux";
 import * as Yup from "yup";
@@ -33,7 +32,6 @@ const MetadataForm = ({ metadata }: { metadata: MetadataNFT }) => {
 				try {
 					setSubmitting(true);
 					await createNFT(user, contract, values);
-					toast.success("NFT created successfully");
 				} catch (error) {
 					console.log(error);
 				} finally {
