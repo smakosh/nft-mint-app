@@ -1,8 +1,7 @@
+import { Fragment } from "react";
 import toast from "react-hot-toast";
 import CopyToClipboard from "react-copy-to-clipboard";
 import { Menu, Transition } from "@headlessui/react";
-import { Fragment } from "react";
-import { ethers } from "ethers";
 import {
 	ChevronDownIcon,
 	ClipboardCopyIcon,
@@ -13,7 +12,7 @@ import { UserData } from "features/user/redux/userSlice";
 
 type NavbarProps = Pick<
 	UserData,
-	"address" | "balance" | "network" | "shortAddress"
+	"address" | "balance" | "network" | "shortAddress" | "symbol" | "ethENS"
 > & {
 	signIn: () => void;
 };
@@ -24,13 +23,15 @@ const Navbar = ({
 	balance,
 	network,
 	signIn,
+	symbol,
+	ethENS,
 }: NavbarProps) => (
 	<div className="py-4 text-right">
 		{address ? (
 			<Menu as="div" className="relative inline-block text-right">
 				<div>
 					<Menu.Button className="inline-flex justify-center w-full px-4 py-2 text-sm font-medium text-white bg-purple-800 rounded-md bg-opacity-90 hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
-						{shortAddress}
+						{ethENS || shortAddress}
 						<ChevronDownIcon
 							className="w-5 h-5 ml-2 -mr-1 text-purple-200 hover:text-purple-100"
 							aria-hidden="true"
@@ -96,8 +97,7 @@ const Navbar = ({
 													aria-hidden="true"
 												/>
 											)}
-											Balance:{" "}
-											{Number(ethers.utils.formatEther(balance)).toFixed(6)} ETH
+											Balance: {balance} {symbol}
 										</button>
 									)}
 								</Menu.Item>

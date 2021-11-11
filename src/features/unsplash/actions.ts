@@ -19,14 +19,12 @@ export const deployContract = async (
 	values: ContractValues,
 	dispatch: Dispatch<any>
 ) => {
-	if (typeof (window as any).ethereum !== "undefined" && user.data?.address) {
+	if (typeof window.ethereum !== "undefined" && user.data?.address) {
 		let signer;
 
 		// Get the user signature if it's not saved on memory
 		if (!user.data.signature) {
-			const provider = new ethers.providers.Web3Provider(
-				(window as any).ethereum
-			);
+			const provider = new ethers.providers.Web3Provider(window.ethereum);
 			signer = provider.getSigner();
 		}
 
@@ -63,14 +61,12 @@ export const createNFT = async (
 		return null;
 	}
 
-	if (typeof (window as any).ethereum !== "undefined" && user.data?.address) {
+	if (typeof window.ethereum !== "undefined" && user.data?.address) {
 		let signer;
 
 		// Get the user signature if it's not saved on memory
 		if (!user.data.signature) {
-			const provider = new ethers.providers.Web3Provider(
-				(window as any).ethereum
-			);
+			const provider = new ethers.providers.Web3Provider(window.ethereum);
 			signer = provider.getSigner();
 		}
 

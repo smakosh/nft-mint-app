@@ -7,7 +7,9 @@
 		"build": "hardhat compile && next build",
 		"start": "next start",
 		"lint": "next lint",
-		"deploy:mumbai": "yarn hardhat run scripts/deploy.js --network mumbai",
+		"deploy:polygon": "yarn hardhat run scripts/deploy.js --network polygon",
+		"deploy:ethereum": "yarn hardhat run scripts/deploy.js --network ethereum",
+		"deploy:localhost": "yarn hardhat run scripts/deploy.js --network localhost",
 		"compile": "yarn hardhat compile",
 		"test:nft": "yarn hardhat test"
 	},

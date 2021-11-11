@@ -15,14 +15,15 @@ const SmartContract = () => {
 	};
 
 	return (
-		<div>
+		<div className="flex items-end">
 			<ContractAddressInput />
+			<span className="mx-3 self-center mt-5">Or</span>
 			<button
 				type="button"
 				onClick={() => triggerModal()}
 				className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
 			>
-				New contract
+				Create New ERC-721 Contract
 			</button>
 		</div>
 	);

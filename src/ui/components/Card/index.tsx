@@ -30,7 +30,7 @@ const Card = ({ photo, title, alt, onClick }: CardProps) => (
 				<button
 					onClick={onClick}
 					type="button"
-					className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-5"
+					className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-3"
 				>
 					Edit Metadata
 				</button>

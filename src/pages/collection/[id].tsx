@@ -1,34 +1,19 @@
 import { GetServerSideProps } from "next";
 import cookie from "cookie";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "utils/store";
 import SEO from "utils/SEO";
-import Navbar from "ui/components/Navbar";
-import { requestAccount } from "features/user/actions";
+import GoBack from "ui/components/GoBack";
+import Layout from "ui/components/Layout";
 import Collection, {
 	CollectionProps,
 } from "features/unsplash/modules/Collection";
-import GoBack from "ui/components/GoBack";
 
-const CollectionPage = ({ photos, collection }: CollectionProps) => {
-	const dispatch = useDispatch();
-	const user = useSelector((state: RootState) => state.user);
-
-	return (
-		<div className="container mx-auto text-right">
-			<SEO title={collection.title} url={`/collection/${collection.id}`} />
-			<Navbar
-				address={user.data?.address}
-				balance={user.data?.balance}
-				shortAddress={user.data?.shortAddress}
-				network={user.data?.network}
-				signIn={() => requestAccount(dispatch)}
-			/>
-			<GoBack link="/" />
-			<Collection photos={photos} collection={collection} />
-		</div>
-	);
-};
+const CollectionPage = ({ photos, collection }: CollectionProps) => (
+	<Layout>
+		<SEO title={collection.title} url={`/collection/${collection.id}`} />
+		<GoBack link="/" />
+		<Collection photos={photos} collection={collection} />
+	</Layout>
+);
 
 export const getServerSideProps: GetServerSideProps = async (
 	ctx

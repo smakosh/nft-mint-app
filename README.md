@@ -23,22 +23,10 @@ A Free and Open source NFT minting platform
 
 > See: <https://github.com/smakosh/nft-mint-app/issues>
 
-### Setup
-
-#### Polygon
-
-See: <https://github.com/smakosh/nft-mint-app/tree/blockchain/polygon>
-
-#### Mainnet
-
-Just use the deployed app
-
-> Branch: <https://github.com/smakosh/nft-mint-app>
-
 ### Improvements
 
-- Handle loading states
-- Styling improvements
+- ~~Handle loading states~~
+- ~~Styling improvements~~
 - Take the user to the OpenSea link once deployed
 
 ## Contributors ✨
