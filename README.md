@@ -16,7 +16,7 @@ A Free and Open source NFT minting platform
 
 ### Coming soon features
 
-- Switch from ERC 721 to ERC 1115
+- Switch from ERC 721 to ERC 1155
 - Support mass minting
 - Support Dribbble
 - Support Instagram
