@@ -42,6 +42,11 @@ export const getServerSideProps: GetServerSideProps = async (
 			);
 			const collection = await res.json();
 
+			ctx.res.setHeader(
+				"Cache-Control",
+				"public, s-maxage=86400, stale-while-revalidate=43200"
+			);
+
 			return {
 				props: {
 					photos,

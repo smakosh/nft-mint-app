@@ -36,6 +36,11 @@ export default async function handler(
 				})
 			);
 
+			res.setHeader(
+				"Cache-Control",
+				"public, s-maxage=86400, stale-while-revalidate=43200"
+			);
+
 			res.redirect(
 				307,
 				process.env.NODE_ENV === "development"

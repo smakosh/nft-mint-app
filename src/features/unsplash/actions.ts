@@ -1,11 +1,12 @@
 import toast from "react-hot-toast";
+import axios from "axios";
 import { Dispatch } from "redux";
 import { ethers } from "ethers";
-import { create as ipfsHttpClient } from "ipfs-http-client";
 import { UserState } from "features/user/redux/userSlice";
 import {
 	ContractState,
 	saveDeployedContract,
+	updateNFTStatus,
 } from "features/unsplash/redux/contractSlice";
 import NFTFactory from "../../../artifacts/contracts/NFTFactory.sol/NFTFactory.json";
 
@@ -54,7 +55,8 @@ export type MetadataNFT = {
 export const createNFT = async (
 	user: UserState,
 	savedContract: ContractState,
-	values: MetadataNFT
+	values: MetadataNFT,
+	dispatch: Dispatch<any>
 ) => {
 	if (!savedContract.address && !savedContract.contract) {
 		toast.error("No contract is attached");
@@ -70,23 +72,16 @@ export const createNFT = async (
 			signer = provider.getSigner();
 		}
 
-		// Prepare IPFS client instance
-		const client = ipfsHttpClient({
-			url: "https://ipfs.infura.io:5001/api/v0",
-		});
+		dispatch(updateNFTStatus("uploading to IPFS"));
 
-		// @TOOD: Pass the metadata dynamically
-		const data = JSON.stringify({
-			attributes: [],
-			...values,
+		// Upload to IPFS
+		const res: any = await axios.post("/api/ipfs/upload", {
+			values,
 		});
-
-		// Upload to IPFS (Look up for alternatives as data is not stored forever)
-		const added = await client.add(data);
-		const url = `https://ipfs.infura.io/ipfs/${added.path}`;
 
 		let contract: ethers.Contract;
 
+		dispatch(updateNFTStatus("Minting the NFT"));
 		// Mint the NFT using the deployed smart contract
 		if (savedContract.address) {
 			contract = new ethers.Contract(
@@ -102,9 +97,16 @@ export const createNFT = async (
 			);
 		}
 
+		dispatch(updateNFTStatus("Pending transaction"));
 		// Token gets created
-		const transaction = await contract.createToken(url);
+		const transaction = await contract.createToken(res.data.url);
 		await transaction.wait();
+
+		dispatch(updateNFTStatus("Successfully minted!"));
+
+		setTimeout(() => {
+			dispatch(updateNFTStatus(null));
+		}, 2000);
 
 		toast.success("NFT created successfully");
 	}

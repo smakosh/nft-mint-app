@@ -1,12 +1,12 @@
 import { useDispatch, useSelector } from "react-redux";
 import { Field, Form, Formik } from "formik";
 import * as Yup from "yup";
-import { RootState } from "utils/store";
+import { AppDispatch, RootState } from "utils/store";
 import { saveContractAddress } from "features/unsplash/redux/contractSlice";
 
 const ContractAddressInput = () => {
 	const contract = useSelector((state: RootState) => state.contract);
-	const dispatch = useDispatch();
+	const dispatch = useDispatch<AppDispatch>();
 
 	return (
 		<Formik
