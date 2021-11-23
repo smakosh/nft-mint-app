@@ -19,8 +19,10 @@ export const requestAccount = async (dispatch: Dispatch<any>) => {
 
 		let ethENS = undefined;
 
-		if (name !== "matic") {
+		try {
 			ethENS = await provider?.lookupAddress(address);
+		} catch (error) {
+			ethENS = undefined;
 		}
 
 		dispatch(
