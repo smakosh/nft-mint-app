@@ -1,67 +1,59 @@
-import { GetServerSideProps } from "next";
-import cookie from "cookie";
-import SEO from "utils/SEO";
-import GoBack from "ui/components/GoBack";
-import Layout from "ui/components/Layout";
-import Collection, {
-	CollectionProps,
-} from "features/unsplash/modules/Collection";
+import { GetServerSideProps } from 'next';
+import cookie from 'cookie';
+import SEO from 'utils/SEO';
+import GoBack from 'ui/components/GoBack';
+import Layout from 'ui/components/Layout';
+import Collection, { CollectionProps } from 'features/unsplash/modules/Collection';
 
 const CollectionPage = ({ photos, collection }: CollectionProps) => (
-	<Layout>
-		<SEO title={collection.title} url={`/collection/${collection.id}`} />
-		<GoBack link="/" />
-		<Collection photos={photos} collection={collection} />
-	</Layout>
+  <Layout>
+    <SEO title={collection.title} url={`/collection/${collection.id}`} />
+    <GoBack link="/" />
+    <Collection photos={photos} collection={collection} />
+  </Layout>
 );
 
-export const getServerSideProps: GetServerSideProps = async (
-	ctx
-): Promise<any> => {
-	const cookies = cookie.parse(ctx.req.headers.cookie || "");
+export const getServerSideProps: GetServerSideProps = async (ctx): Promise<any> => {
+  const cookies = cookie.parse(ctx.req.headers.cookie || '');
 
-	if (cookies.access_token) {
-		const accessToken = cookies.access_token;
+  if (cookies.access_token) {
+    const accessToken = cookies.access_token;
 
-		if (accessToken && ctx.params?.id) {
-			const headers = {
-				headers: {
-					Authorization: `Bearer ${accessToken}`,
-				},
-			};
+    if (accessToken && ctx.params?.id) {
+      const headers = {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      };
 
-			const response = await fetch(
-				`https://api.unsplash.com/collections/${ctx.params.id}/photos?page=1`,
-				headers
-			);
-			const photos = await response.json();
+      const response = await fetch(`https://api.unsplash.com/collections/${ctx.params.id}/photos?page=1`, headers);
+      const photos = await response.json();
 
-			const res = await fetch(
-				`https://api.unsplash.com/collections/${ctx.params.id}`,
-				headers
-			);
-			const collection = await res.json();
+      const res = await fetch(`https://api.unsplash.com/collections/${ctx.params.id}`, headers);
+      const collection = await res.json();
 
-			return {
-				props: {
-					photos,
-					collection,
-				},
-			};
-		} else {
-			return {
-				redirect: {
-					destination: "/signin",
-				},
-			};
-		}
-	}
+      ctx.res.setHeader('Cache-Control', 'public, s-maxage=86400, stale-while-revalidate=43200');
 
-	return {
-		redirect: {
-			destination: "/signin",
-		},
-	};
+      return {
+        props: {
+          photos,
+          collection,
+        },
+      };
+    } else {
+      return {
+        redirect: {
+          destination: '/signin',
+        },
+      };
+    }
+  }
+
+  return {
+    redirect: {
+      destination: '/signin',
+    },
+  };
 };
 
 export default CollectionPage;

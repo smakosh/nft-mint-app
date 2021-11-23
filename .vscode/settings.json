@@ -2,5 +2,6 @@
 	"editor.formatOnSave": true,
 	"editor.codeActionsOnSave": {
 		"source.fixAll": true
-	}
+	},
+	"prettier.useEditorConfig": true
 }

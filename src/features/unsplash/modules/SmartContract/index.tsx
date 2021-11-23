@@ -1,9 +1,10 @@
 import { useDispatch } from "react-redux";
 import { setModal } from "ui/components/StyledModal/redux/modalSlice";
 import ContractAddressInput from "features/unsplash/components/ContractAddressInput";
+import { AppDispatch } from "utils/store";
 
 const SmartContract = () => {
-	const dispatch = useDispatch();
+	const dispatch = useDispatch<AppDispatch>();
 
 	const triggerModal = () => {
 		dispatch(

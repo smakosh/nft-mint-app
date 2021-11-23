@@ -1,10 +1,11 @@
 import { ErrorMessage, Field, Form, Formik } from "formik";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import * as Yup from "yup";
 import { createNFT, MetadataNFT } from "features/unsplash/actions";
-import { RootState } from "utils/store";
+import { AppDispatch, RootState } from "utils/store";
 
 const MetadataForm = ({ metadata }: { metadata: MetadataNFT }) => {
+	const dispatch = useDispatch<AppDispatch>();
 	const contract = useSelector((state: RootState) => state.contract);
 	const user = useSelector((state: RootState) => state.user);
 
@@ -31,7 +32,7 @@ const MetadataForm = ({ metadata }: { metadata: MetadataNFT }) => {
 			onSubmit={async (values, { setSubmitting }) => {
 				try {
 					setSubmitting(true);
-					await createNFT(user, contract, values);
+					await createNFT(user, contract, values, dispatch);
 				} catch (error) {
 					console.log(error);
 				} finally {
@@ -131,7 +132,9 @@ const MetadataForm = ({ metadata }: { metadata: MetadataNFT }) => {
 							type="submit"
 							disabled={isButtonDisabled}
 						>
-							{isSubmitting ? "Minting" : "Mint NFT"}
+							{isSubmitting && contract.nftStatus !== null
+								? contract.nftStatus
+								: "Mint NFT"}
 						</button>
 					</div>
 				</Form>
