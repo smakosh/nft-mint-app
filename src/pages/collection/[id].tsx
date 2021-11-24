@@ -32,8 +32,6 @@ export const getServerSideProps: GetServerSideProps = async (ctx): Promise<any> 
       const res = await fetch(`https://api.unsplash.com/collections/${ctx.params.id}`, headers);
       const collection = await res.json();
 
-      ctx.res.setHeader('Cache-Control', 'public, s-maxage=86400, stale-while-revalidate=43200');
-
       return {
         props: {
           photos,
