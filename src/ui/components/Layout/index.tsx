@@ -5,6 +5,7 @@ import { ethers } from 'ethers';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from 'utils/store';
 import Navbar from 'ui/components/Navbar';
+import Footer from 'ui/components/Footer';
 import { requestAccount, disconnectWallet } from 'features/user/actions';
 
 const Layout: FC = ({ children }) => {
@@ -74,6 +75,7 @@ const Layout: FC = ({ children }) => {
         </div>
       )}
       {children}
+      <Footer />
     </div>
   );
 };

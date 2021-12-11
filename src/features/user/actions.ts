@@ -3,14 +3,13 @@ import { ethers } from 'ethers';
 import { Dispatch } from 'redux';
 import { clear, save, setLoading } from 'features/user/redux/userSlice';
 import getShortAddress from 'helpers/getShortAddress';
+import connectWallet, { getWeb3Modal } from 'utils/connectWallet';
 
 export const requestAccount = async (dispatch: Dispatch<any>) => {
   if (window.ethereum) {
     try {
       dispatch(setLoading(true));
-      const provider = new ethers.providers.Web3Provider(window.ethereum, 'any');
-
-      await provider.send('eth_requestAccounts', []);
+      const { provider } = await connectWallet();
 
       const { name } = await provider.getNetwork();
 
@@ -49,5 +48,8 @@ export const requestAccount = async (dispatch: Dispatch<any>) => {
 };
 
 export const disconnectWallet = async (dispatch: Dispatch<any>) => {
+  const web3Modal = getWeb3Modal();
+
+  web3Modal.clearCachedProvider();
   dispatch(clear());
 };

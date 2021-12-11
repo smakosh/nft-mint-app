@@ -11,6 +11,7 @@ import {
   LogoutIcon,
 } from '@heroicons/react/solid';
 import { UserData } from 'features/user/redux/userSlice';
+import ThemeSwitcher from '../ThemeSwitcher';
 
 type NavbarProps = Pick<UserData, 'address' | 'balance' | 'network' | 'shortAddress' | 'symbol' | 'ethENS'> & {
   signIn: () => void;
@@ -32,7 +33,7 @@ const Navbar = ({
   <div className="py-4 text-right">
     <div className="flex items-center justify-end">
       {address ? (
-        <Menu as="div" className="relative inline-block text-right">
+        <Menu as="div" className="relative inline-block text-right mr-2">
           <div>
             <Menu.Button className="inline-flex justify-center w-full px-4 py-2 text-sm font-medium text-white bg-purple-800 rounded-md bg-opacity-90 hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
               {ethENS || shortAddress}
@@ -116,13 +117,14 @@ const Navbar = ({
         </Menu>
       ) : (
         <button
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"
           type="button"
           onClick={signIn}
         >
           Connect Wallet
         </button>
       )}
+      <ThemeSwitcher />
       <button
         onClick={handleLogout}
         className="ml-2 inline-flex justify-center  px-4 py-2 text-sm font-medium text-white bg-gray-800 rounded-md bg-opacity-90 hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
