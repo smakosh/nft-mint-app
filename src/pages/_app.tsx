@@ -1,10 +1,10 @@
 import { Toaster } from 'react-hot-toast';
 import { DefaultSeo } from 'next-seo';
 import type { AppProps } from 'next/app';
+import NextNProgress from 'nextjs-progressbar';
 import nextSEOConfig from 'config/next-seo.config';
 import AppProviders from 'utils/AppProviders';
-import 'tailwindcss/tailwind.css';
-import NextNProgress from 'nextjs-progressbar';
+import 'ui/styles/globals.css';
 
 const MyApp = ({ Component, pageProps }: AppProps) => (
   <AppProviders>
