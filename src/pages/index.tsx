@@ -31,35 +31,26 @@ const Index = ({ collections }: IndexProps) => (
 
 export const getServerSideProps: GetServerSideProps = async (ctx): Promise<any> => {
   const cookies = cookie.parse(ctx.req.headers.cookie || '');
+  const accessToken = cookies.access_token;
 
-  if (cookies.access_token) {
-    const accessToken = cookies.access_token;
+  if (accessToken) {
+    const headers = {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    };
 
-    if (accessToken) {
-      const headers = {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      };
+    const meResponse = await fetch('https://api.unsplash.com/me', headers);
+    const me = await meResponse.json();
 
-      const meResponse = await fetch('https://api.unsplash.com/me', headers);
-      const me = await meResponse.json();
+    const response = await fetch(`https://api.unsplash.com/users/${me.username}/collections?page=1`, headers);
+    const collections = await response.json();
 
-      const response = await fetch(`https://api.unsplash.com/users/${me.username}/collections?page=1`, headers);
-      const collections = await response.json();
-
-      return {
-        props: {
-          collections,
-        },
-      };
-    } else {
-      return {
-        redirect: {
-          destination: '/signin',
-        },
-      };
-    }
+    return {
+      props: {
+        collections,
+      },
+    };
   }
 
   return {

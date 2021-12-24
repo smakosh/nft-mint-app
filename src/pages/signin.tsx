@@ -41,20 +41,13 @@ const Signin = () => {
 
 export const getServerSideProps: GetServerSideProps = async (ctx): Promise<any> => {
   const cookies = cookie.parse(ctx.req.headers.cookie || '');
+  const accessToken = cookies.access_token;
 
-  if (cookies.access_token) {
-    const accessToken = cookies.access_token;
-
-    if (accessToken) {
-      return {
-        redirect: {
-          destination: '/',
-        },
-      };
-    }
-
+  if (accessToken) {
     return {
-      props: {},
+      redirect: {
+        destination: '/',
+      },
     };
   }
 

@@ -15,36 +15,27 @@ const CollectionPage = ({ photos, collection }: CollectionProps) => (
 
 export const getServerSideProps: GetServerSideProps = async (ctx): Promise<any> => {
   const cookies = cookie.parse(ctx.req.headers.cookie || '');
+  const accessToken = cookies.access_token;
 
-  if (cookies.access_token) {
-    const accessToken = cookies.access_token;
+  if (accessToken && ctx.params?.id) {
+    const headers = {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    };
 
-    if (accessToken && ctx.params?.id) {
-      const headers = {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      };
+    const response = await fetch(`https://api.unsplash.com/collections/${ctx.params.id}/photos?page=1`, headers);
+    const photos = await response.json();
 
-      const response = await fetch(`https://api.unsplash.com/collections/${ctx.params.id}/photos?page=1`, headers);
-      const photos = await response.json();
+    const res = await fetch(`https://api.unsplash.com/collections/${ctx.params.id}`, headers);
+    const collection = await res.json();
 
-      const res = await fetch(`https://api.unsplash.com/collections/${ctx.params.id}`, headers);
-      const collection = await res.json();
-
-      return {
-        props: {
-          photos,
-          collection,
-        },
-      };
-    } else {
-      return {
-        redirect: {
-          destination: '/signin',
-        },
-      };
-    }
+    return {
+      props: {
+        photos,
+        collection,
+      },
+    };
   }
 
   return {
