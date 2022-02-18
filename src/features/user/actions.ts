@@ -1,4 +1,3 @@
-import toast from 'react-hot-toast';
 import { ethers } from 'ethers';
 import { Dispatch } from 'redux';
 import { clear, save, setLoading } from 'features/user/redux/userSlice';
