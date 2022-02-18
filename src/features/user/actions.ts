@@ -6,7 +6,6 @@ import getShortAddress from 'helpers/getShortAddress';
 import connectWallet, { getWeb3Modal } from 'utils/connectWallet';
 
 export const requestAccount = async (dispatch: Dispatch<any>) => {
-  if (window.ethereum) {
     try {
       dispatch(setLoading(true));
       const { provider } = await connectWallet();
@@ -41,10 +40,6 @@ export const requestAccount = async (dispatch: Dispatch<any>) => {
     } catch (error) {
       dispatch(setLoading(false));
     }
-  } else {
-    toast.error('Please Install MetaMask');
-    dispatch(setLoading(false));
-  }
 };
 
 export const disconnectWallet = async (dispatch: Dispatch<any>) => {
