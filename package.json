@@ -1,7 +1,7 @@
 {
   "name": "unsplash-2-opensea",
   "version": "0.1.0",
-  "private": true,
+  "private": false,
   "scripts": {
     "dev": "next dev",
     "build": "hardhat compile && next build",
@@ -20,58 +20,48 @@
     "@nomiclabs/hardhat-ethers": "^2.0.2",
     "@nomiclabs/hardhat-waffle": "^2.0.1",
     "@openzeppelin/contracts": "^4.3.2",
+    "@rainbow-me/rainbowkit": "^0.4.1",
     "@reduxjs/toolkit": "^1.6.2",
-    "@walletconnect/web3-provider": "^1.6.6",
     "axios": "^0.22.0",
     "chai": "^4.3.4",
     "cookie": "^0.4.1",
     "dotenv": "^10.0.0",
-    "ethereum-waffle": "^3.4.0",
-    "ethers": "^5.4.7",
+    "ethereum-waffle": "^3.4.4",
+    "ethers": "^5.6.9",
     "formik": "^2.2.9",
     "hardhat": "^2.6.5",
     "ipfs-http-client": "50.1.2",
-    "next": "^12.0.7",
+    "next": "^12.2.0",
     "next-seo": "^4.28.1",
     "next-themes": "^0.0.15",
-    "nextjs-progressbar": "^0.0.13",
+    "nextjs-progressbar": "^0.0.14",
     "node-fetch": "^3.0.0",
-    "react": "^17.0.2",
+    "react": "^18.2.0",
     "react-copy-to-clipboard": "^5.0.4",
-    "react-dom": "^17.0.2",
+    "react-dom": "^18.2.0",
     "react-hot-toast": "^2.1.1",
     "react-modal": "^3.14.3",
     "react-redux": "^7.2.6",
-    "styled-components": "^5.3.1",
-    "web3": "^1.6.0",
-    "web3modal": "^1.9.4",
+    "redux": "^4.2.0",
+    "wagmi": "^0.5.9",
     "yup": "^0.32.11"
   },
   "devDependencies": {
     "@nomiclabs/hardhat-etherscan": "^2.1.7",
     "@types/cookie": "^0.4.1",
-    "@types/react": "17.0.27",
+    "@types/react": "18.0.15",
     "@types/react-copy-to-clipboard": "^5.0.2",
+    "@types/react-dom": "^18.0.6",
     "@types/react-modal": "^3.13.1",
-    "@types/styled-components": "^5.1.15",
+    "@types/react-redux": "^7.1.24",
+    "@types/redux": "^3.6.0",
     "@types/yup": "^0.29.13",
-    "autoprefixer": "^10.3.6",
-    "babel-plugin-styled-components": "^1.13.2",
+    "autoprefixer": "^10.4.7",
     "eslint": "7.32.0",
-    "eslint-config-next": "11.1.2",
+    "eslint-config-next": "^12.2.2",
     "eslint-config-prettier": "^8.3.0",
-    "postcss": "^8.3.8",
-    "tailwindcss": "^3.0.1",
+    "postcss": "^8.4.14",
+    "tailwindcss": "^3.1.5",
     "typescript": "4.4.3"
-  },
-  "lint-staged": {
-    "*.{js,ts,tsx}": [
-      "prettier --write"
-    ]
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged && next lint"
-    }
   }
 }
