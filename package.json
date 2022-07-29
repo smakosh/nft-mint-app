@@ -20,7 +20,7 @@
     "@nomiclabs/hardhat-ethers": "^2.0.2",
     "@nomiclabs/hardhat-waffle": "^2.0.1",
     "@openzeppelin/contracts": "^4.3.2",
-    "@rainbow-me/rainbowkit": "^0.4.1",
+    "@rainbow-me/rainbowkit": "^0.4.5",
     "@reduxjs/toolkit": "^1.6.2",
     "axios": "^0.22.0",
     "chai": "^4.3.4",
@@ -43,7 +43,7 @@
     "react-modal": "^3.14.3",
     "react-redux": "^7.2.6",
     "redux": "^4.2.0",
-    "wagmi": "^0.5.9",
+    "wagmi": "^0.6.0",
     "yup": "^0.32.11"
   },
   "devDependencies": {
