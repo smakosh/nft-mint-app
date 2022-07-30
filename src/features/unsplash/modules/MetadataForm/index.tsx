@@ -39,19 +39,20 @@ const MetadataForm = ({ metadata }: { metadata: MetadataNFT }) => {
     contractInterface: NFTFactory.abi,
     functionName: 'createToken',
     args: [metadataUrl],
-    enabled: !!contract.address || !!metadataUrl,
+    enabled: !!contract.address && !!metadataUrl,
   });
   const {
     data: tokenData,
     write: createToken,
     isLoading: isCreatingTokenLoading,
     isSuccess: isCreateTokenStarted,
-    // error: createTokenError,
+    error: createTokenError,
   } = useContractWrite(contractWriteConfig);
   const {
     data: txData,
     isSuccess: txSuccess,
-    // error: txError,
+    isLoading: txLoading,
+    error: txError,
   } = useWaitForTransaction({
     hash: tokenData?.hash,
     enabled: !!tokenData?.hash,
@@ -62,6 +63,14 @@ const MetadataForm = ({ metadata }: { metadata: MetadataNFT }) => {
       setNftIndex(Number(balance));
     }
   }, [balance]);
+
+  useEffect(() => {
+    if (contract.address && createToken && metadataUrl) {
+      createToken({
+        recklesslySetUnpreparedArgs: [metadataUrl],
+      });
+    }
+  }, [metadataUrl, contract.address, createToken]);
 
   const isMinted = txSuccess;
   const isButtonDisabled = !contract.address;
@@ -112,22 +121,21 @@ const MetadataForm = ({ metadata }: { metadata: MetadataNFT }) => {
 
           // Upload to IPFS (Look up for alternatives as data is not stored forever)
           const added = await client.add(data);
-          const metadataUrl = `https://ipfs.infura.io/ipfs/${added.path}`;
-          setMetadataUrl(metadataUrl);
+          const currentMetadataUrl = `https://ipfs.infura.io/ipfs/${added.path}`;
+
+          setMetadataUrl(currentMetadataUrl);
           setIsUploadingToIPFS(false);
+
+          setTimeout(() => {}, 4000);
 
           let currentContract: ethers.Contract;
 
           // Mint the NFT using the deployed smart contract
-          if (contract.address && createToken) {
-            createToken({
-              recklesslySetUnpreparedArgs: [metadataUrl],
-            });
-          } else if (signer) {
+          if (signer && contract.contract?.address) {
             currentContract = new ethers.Contract(contract.contract.address, NFTFactory.abi, signer);
 
             // Token gets created
-            const transaction = await currentContract.createToken(metadataUrl);
+            const transaction = await currentContract.createToken(currentMetadataUrl);
             await transaction.wait();
           }
         } catch (error) {
@@ -195,7 +203,9 @@ const MetadataForm = ({ metadata }: { metadata: MetadataNFT }) => {
               />
               <ErrorMessage name="image" component="div" className="text-red-500 text-sm" />
             </div>
-            {isMinted ? (
+            {createTokenError?.message && <div className="text-red-500 text-sm">{createTokenError?.message}</div>}
+            {txError?.message && <div className="text-red-500 text-sm">{txError?.message}</div>}
+            {isMinted && !txLoading ? (
               <div>
                 <p className="text-green-500">Your NFT has been minted successfully!</p>
                 <p className="mb-2">
@@ -240,8 +250,8 @@ const MetadataForm = ({ metadata }: { metadata: MetadataNFT }) => {
                 >
                   {isUploadingToIPFS && 'Uploading to IPFS...'}
                   {isCreatingTokenLoading && 'Waiting for approval...'}
-                  {isCreateTokenStarted && 'Minting...'}
-                  {!isCreatingTokenLoading && !isCreateTokenStarted && 'Mint NFT'}
+                  {(isCreateTokenStarted || txLoading) && 'Minting...'}
+                  {!isCreatingTokenLoading && !isCreateTokenStarted && !isUploadingToIPFS && !txLoading && 'Mint NFT'}
                 </button>
               </div>
             )}
