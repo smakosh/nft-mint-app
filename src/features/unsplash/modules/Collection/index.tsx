@@ -10,6 +10,8 @@ import { MetadataNFT } from 'features/unsplash/actions';
 import SmartContract from 'features/unsplash/modules/SmartContract';
 import SmartContractForm from 'features/unsplash/modules/SmartContractForm';
 import MetadataForm from 'features/unsplash/modules/MetadataForm';
+import { ArrowLeftIcon } from '@heroicons/react/24/solid';
+import Link from 'next/link';
 
 export type CollectionProps = {
   collection: CollectionType;
@@ -51,18 +53,24 @@ const Collection = ({ photos, collection }: CollectionProps) => {
   return (
     <>
       <div className="py-4 flex justify-between items-center">
-        <h1 className="text-4xl text-left">{collection.title}</h1>
+        <div className="inline-flex items-center">
+          <Link href="/collections" className="mr-3">
+            <ArrowLeftIcon className="w-6 h-6" />
+          </Link>
+          <h1 className="text-4xl text-left">{collection.title}</h1>
+        </div>
         <SmartContract />
       </div>
       <StyledModal isOpen={modal.isOpen} closeModal={() => dispatch(closeModal())}>
         {renderModal()}
       </StyledModal>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-10 pb-8 pt-4">
-        {photos.map(({ id, urls, description }) => (
+        {photos.map(({ id, urls, description, user }) => (
           <div key={id}>
             <Card
               photo={urls.regular}
               alt={description}
+              user={user}
               onClick={() =>
                 handleModal({
                   description,

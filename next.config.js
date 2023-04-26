@@ -11,6 +11,15 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
+  async redirects() {
+    return [
+      {
+        source: '/',
+        destination: '/collections',
+        permanent: true,
+      },
+    ];
+  },
 };
 
 module.exports = nextConfig;
