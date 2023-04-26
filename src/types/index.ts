@@ -1,3 +1,11 @@
+export type User = {
+  name: string;
+  username: string;
+  links: {
+    html: string;
+  };
+};
+
 export type Collection = {
   id: number;
   title: string;
@@ -5,6 +13,7 @@ export type Collection = {
   published_at: Date;
   total_photos: number;
   private: boolean;
+  user: User;
   cover_photo: {
     id: string;
     width: number;
@@ -51,18 +60,7 @@ export type CollectionPhoto = {
   likes: number;
   liked_by_user: false;
   description: string;
-  // current_user_collections: [ // The *current user's* collections that this photo belongs to.
-  //   {
-  //     id: 206;
-  //     title: Makers: Cat and Ben;
-  //     published_at: 2016-01-12T18:16:09-05:00;
-  //     last_collected_at: 2016-06-02T13:10:03-04:00;
-  //     updated_at: 2016-07-10T11:00:01-05:00;
-  //     cover_photo: null;
-  //     user: null
-  //   };
-  //   // ... more collections
-  // ];
+  user: User;
   urls: {
     raw: string;
     full: string;

@@ -1,18 +1,16 @@
-import { GetServerSideProps } from 'next';
-import cookie from 'cookie';
-import SEO from 'utils/SEO';
+'use client';
+
 import { UNSPLASH_ACCESS_KEY, UNSPLASH_REDIRECT_URI } from 'config';
 import Footer from 'ui/components/Footer';
 import ThemeSwitcher from 'ui/components/ThemeSwitcher';
 
-const Signin = () => {
+const SigninWithUnsplash = () => {
   const handleLogin = () => {
     window.location.href = `https://unsplash.com/oauth/authorize?client_id=${UNSPLASH_ACCESS_KEY}&redirect_uri=${UNSPLASH_REDIRECT_URI}&response_type=code&scope=public`;
   };
 
   return (
     <div className="flex justify-center h-screen">
-      <SEO title="Sign In" url="/signin" />
       <div className="self-center w-auto mx-auto text-center flex justify-between flex-col h-96">
         <div className="mb-40">
           <div className="mb-20">
@@ -39,21 +37,4 @@ const Signin = () => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async (ctx): Promise<any> => {
-  const cookies = cookie.parse(ctx.req.headers.cookie || '');
-  const accessToken = cookies.access_token;
-
-  if (accessToken) {
-    return {
-      redirect: {
-        destination: '/',
-      },
-    };
-  }
-
-  return {
-    props: {},
-  };
-};
-
-export default Signin;
+export default SigninWithUnsplash;

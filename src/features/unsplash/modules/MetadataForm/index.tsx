@@ -1,3 +1,5 @@
+'use client';
+
 import { useEffect, useState } from 'react';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import { useSelector } from 'react-redux';
@@ -25,18 +27,18 @@ const MetadataForm = ({ metadata }: { metadata: MetadataNFT }) => {
   const contract = useSelector((state: RootState) => state.contract);
   const { address } = useAccount();
   const { chain } = useNetwork();
-  const { data: signer } = useSigner();
+  const { data: signer, isLoading: isLoadingSigner } = useSigner();
   const { data: balance } = useContractRead({
-    addressOrName: contract.address as string,
-    contractInterface: NFTFactory.abi,
+    address: contract.address,
+    abi: NFTFactory.abi,
     functionName: 'balanceOf',
     args: [address],
     watch: true,
-    enabled: !!address,
+    enabled: !!address || !!contract.address,
   });
   const { config: contractWriteConfig } = usePrepareContractWrite({
-    addressOrName: contract.address as string,
-    contractInterface: NFTFactory.abi,
+    address: contract.address,
+    abi: NFTFactory.abi,
     functionName: 'createToken',
     args: [metadataUrl],
     enabled: !!contract.address && !!metadataUrl,
@@ -66,9 +68,7 @@ const MetadataForm = ({ metadata }: { metadata: MetadataNFT }) => {
 
   useEffect(() => {
     if (contract.address && createToken && metadataUrl) {
-      createToken({
-        recklesslySetUnpreparedArgs: [metadataUrl],
-      });
+      createToken();
     }
   }, [metadataUrl, contract.address, createToken]);
 
@@ -96,7 +96,7 @@ const MetadataForm = ({ metadata }: { metadata: MetadataNFT }) => {
       onSubmit={async (values) => {
         try {
           setIsUploadingToIPFS(true);
-          const res: any = await axios.post('/api/ipfs/upload');
+          const res: any = await axios.post('/api/upload');
 
           const client = ipfsHttpClient({
             host: 'ipfs.infura.io',
@@ -131,8 +131,8 @@ const MetadataForm = ({ metadata }: { metadata: MetadataNFT }) => {
           let currentContract: ethers.Contract;
 
           // Mint the NFT using the deployed smart contract
-          if (signer && contract.contract?.address) {
-            currentContract = new ethers.Contract(contract.contract.address, NFTFactory.abi, signer);
+          if (signer && contract.contract?.address && !isLoadingSigner) {
+            currentContract = new ethers.Contract(contract.contract.address, NFTFactory.abi, signer as any);
 
             // Token gets created
             const transaction = await currentContract.createToken(currentMetadataUrl);
